@@ -1,11 +1,10 @@
 "use client"
-import { User } from '@/context/context'
+import { User, UserContext } from '@/context/context'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect } from 'react'
-
 const login = () => {
-    const { isloggedIn, setIsLoggedIn } = useContext(User)
+    const { isloggedIn, setIsLoggedIn } =UserContext()
     const router = useRouter();
     console.log(isloggedIn)
 
