@@ -3,10 +3,14 @@ import { UserContext } from '@/app/context/context'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect } from 'react'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
-    const { isloggedIn, setIsLoggedIn } =UserContext()
+    const { isloggedIn, setIsLoggedIn } = UserContext()
     const router = useRouter();
-    
+
 
 
     const [user, setUser] = React.useState({
@@ -26,11 +30,14 @@ const Login = () => {
     const loginuser = async (e) => {
         e.preventDefault();
         if (!user.email || !user.password) {
-            alert("fill all the deatils ")
+            toast.error("fill all the deatils ", {
+                position: "top-center",
+                autoClose: 2000,
+            })
         }
         else {
 
-            let getuser = await fetch("/api/getuser",
+            let getuser = await toast.promise(fetch("/api/getuser",
                 {
                     method: "POST",
                     headers: {
@@ -38,10 +45,22 @@ const Login = () => {
                     },
                     body: JSON.stringify(user)
                 }
-            );
+            ), {
+                pending: 'Waiting',
+                success: 'response received',
+                error: 'Something Want wrong'
+            }, {
+                position: "top-center",
+                autoClose: 2000,
+            })
+
             getuser = await getuser.json()
             if (!getuser.success) {
-                alert(getuser.message);
+                toast.dismiss();
+                toast.error(getuser.message, {
+                    position: "top-center",
+                    autoClose: 2000,
+                });
                 return;
             }
             setUser({
@@ -53,11 +72,11 @@ const Login = () => {
     }
     useEffect(() => {
         if (isloggedIn) {
-          router.push('/products');
+            router.push('/products');
         }
-      }, [isloggedIn, router]);
-      
-        
+    }, [isloggedIn, router]);
+
+
     return (
         <div className="w-screen h-screen flex justify-center items-center" >
             <div className="w-3/5 h-3/5 flex flex-col justify-center items-center">
@@ -87,7 +106,7 @@ const Login = () => {
                     />
                 </form>
             </div>
-
+            <ToastContainer />
         </div>
     )
 }

@@ -13,9 +13,9 @@ export async function POST(req) {
         const setuser = await user.create(params);
         const res = await setuser.save()
         console.log(res)
-        return NextResponse.json({ "message": res, "success": true })
+        return NextResponse.json({ "message": res, "success": true,status:200 })
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ "message": error, "success": false })
+        return NextResponse.json({ "message": error, "success": false,status:404 })
     }
 }

@@ -3,18 +3,19 @@ import { UserContext } from '@/app/context/context'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Signup = () => {
-    const {isloggedIn,setIsLoggedIn}=UserContext()
+    const { isloggedIn, setIsLoggedIn } = UserContext()
     const router = useRouter();
-    if(isloggedIn){
+    if (isloggedIn) {
         router.push('/products')
     }
     const [user, setUser] = React.useState({
         email: "", password: "", name: ""
     })
 
-    
+
     const SetUserData = e => {
         /* react Code*/
         const { name, value } = e.target;
@@ -24,39 +25,61 @@ const Signup = () => {
             })
         )
     }
-  
-    
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             if (!user.email || !user.password) {
-                alert("fill all the details ")
+                toast.error("fill all the details ")
             }
             else {
-                // alert(user.email + " " + user.password +" "+ user.name)
-                const registerUser = await fetch('/api/setuser', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(user)
+
+                const registerUser = await toast.promise(
+                    fetch('/api/setuser', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(user)
+                    }), {
+                    pending: 'Waiting',
+                    success: 'response received',
+                    error: 'Something Want wrong'
+                }, {
+                    position: "top-center",
+                    autoClose: 2000,
                 })
                 const result = await registerUser.json();
-            
+
                 if (!result.success) {
-                   
-                    result?.message?.keyValue?.email?alert("email already exits"):alert("Enter a valid email")
+                    toast.dismiss()
+                    result?.message?.keyValue?.email ? toast.error("email already exits", {
+                        position: "top-center",
+                        autoClose: 2000,
+                    }) : toast.error("Enter a valid email", {
+                        position: "top-center",
+                        autoClose: 2000,
+                    })
                     return;
                 }
-             
                
-                const sendmail= await fetch('/api/emailsend',{
-                    method:"POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(user.email)
+
+                const sendmail = await toast.promise(
+                    fetch('/api/emailsend', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(user.email)
+                    }), {
+                    pending: 'sending mail please wait',
+                    success: 'mail send received',
+                    error: 'Something Want wrong'
+                }, {
+                    position: "top-center",
+                    autoClose: 2000,
                 })
                 console.log(sendmail)
                 setUser({
@@ -108,7 +131,7 @@ focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-gr
                     />
                 </form>
             </div>
-
+            <ToastContainer />
         </div>
     )
 }

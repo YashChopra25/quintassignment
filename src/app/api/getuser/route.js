@@ -21,8 +21,8 @@ export async function POST(req) {
             result = "Invalid credentail";
             success = false;
         }
-        return NextResponse.json({ "message": result, "success": success })
+        return NextResponse.json({ "message": result, "success": success,status:200 })
     } catch (error) {
-        return NextResponse.json({ "message": result, "success": false })
+        return NextResponse.json({ "message": result, "success": false ,status:404})
     }
 }

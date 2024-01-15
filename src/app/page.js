@@ -1,8 +1,8 @@
 import Link from "next/link";
 import dbconnect from "@/services/dbconnect";
-import { UserProvider } from "@/app/context/context";
-import { useRouter } from "next/navigation";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
 
   dbconnect();
@@ -13,6 +13,7 @@ export default function Home() {
           <Link href={"/signup"} className=" text-white bg-[#24292F]  hover:bg-white/[0.4] hover:text-black focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2">Signup</Link>
           <Link href={"/login"} className="text-white bg-[#24292F] hover:bg-white/[0.4] hover:text-black focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2">Login</Link>
         </div>
+        <ToastContainer />
       </div>
   )
 }
