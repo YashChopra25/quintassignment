@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
+import validator from "validator";
 mongoose.Promise = global.Promise;
 
 const UserSchema = new mongoose.Schema({
@@ -13,7 +14,10 @@ const UserSchema = new mongoose.Schema({
         lowercase: true,
         unique: true,
         required: 'Email address is required',
-    
+        validate: {
+            validator: (value) => validator.isEmail(value),
+            message: 'Invalid email format',
+        },
     },
     password: {
         type: String,
@@ -24,10 +28,15 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.pre("save", async function(next){
-    if(this.isModified('password')) 
-    this.password= await bcrypt.hash(this.password,8)
-    next();
-})
+    try {
+        if (this.isModified('password')) {
+            this.password = await bcrypt.hash(this.password, 12); 
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 

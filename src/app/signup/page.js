@@ -1,10 +1,10 @@
 "use client"
-import { UserContext } from '@/context/context'
+import { UserContext } from '@/app/context/context'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const Signup = () => {
     const {isloggedIn,setIsLoggedIn}=UserContext()
     const router = useRouter();
     if(isloggedIn){
@@ -43,16 +43,14 @@ const page = () => {
                     body: JSON.stringify(user)
                 })
                 const result = await registerUser.json();
-                console.log(result)
+            
                 if (!result.success) {
-                    console.log(result)
-                    result?.message?.keyValue?.email?alert("email already exits"):alert(result?.message?.message)
+                   
+                    result?.message?.keyValue?.email?alert("email already exits"):alert("Enter a valid email")
                     return;
                 }
              
-                setUser({
-                    email: "", password: "", name: ""
-                })
+               
                 const sendmail= await fetch('/api/emailsend',{
                     method:"POST",
                     headers: {
@@ -61,6 +59,9 @@ const page = () => {
                     body: JSON.stringify(user.email)
                 })
                 console.log(sendmail)
+                setUser({
+                    email: "", password: "", name: ""
+                })
                 setIsLoggedIn(true)
             }
         } catch (error) {
@@ -112,4 +113,4 @@ focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-gr
     )
 }
 
-export default page
+export default Signup

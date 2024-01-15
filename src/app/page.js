@@ -1,6 +1,6 @@
 import Link from "next/link";
 import dbconnect from "@/services/dbconnect";
-import { UserProvider } from "@/context/context";
+import { UserProvider } from "@/app/context/context";
 import { useRouter } from "next/navigation";
 
 export default function Home() {

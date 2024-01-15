@@ -1,12 +1,12 @@
 "use client"
-import { User, UserContext } from '@/context/context'
+import { UserContext } from '@/app/context/context'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect } from 'react'
-const login = () => {
+const Login = () => {
     const { isloggedIn, setIsLoggedIn } =UserContext()
     const router = useRouter();
-    console.log(isloggedIn)
+    
 
 
     const [user, setUser] = React.useState({
@@ -53,16 +53,17 @@ const login = () => {
     }
     useEffect(() => {
         if (isloggedIn) {
-            router.push('/products')
+          router.push('/products');
         }
-    }, [isloggedIn])
-
+      }, [isloggedIn, router]);
+      
+        
     return (
         <div className="w-screen h-screen flex justify-center items-center" >
             <div className="w-3/5 h-3/5 flex flex-col justify-center items-center">
                 <span className='mt-3'>
 
-                    Don't have an account ?<Link href="/signup" className="my-6 ml-1 focus:outline-none focus:border-b-2 focus:underline-none focus:border-black hover:text-blue-400 underline "> Sign Up</Link>
+                    Don&apos;t have an account ?<Link href="/signup" className="my-6 ml-1 focus:outline-none focus:border-b-2 focus:underline-none focus:border-black hover:text-blue-400 underline "> Sign Up</Link>
                 </span>
                 <form name="Form" className="flex flex-col mt-6 gap-3" >
                     <label htmlFor="email" className="text-black/[0.5]">Email</label>
@@ -91,4 +92,4 @@ const login = () => {
     )
 }
 
-export default login;
+export default Login;
