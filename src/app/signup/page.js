@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-
+import 'react-toastify/dist/ReactToastify.css';
 const Signup = () => {
     const { isloggedIn, setIsLoggedIn } = UserContext()
     const router = useRouter();
