@@ -14,7 +14,7 @@ export async function POST(request) {
        const email=await request.json()
        console.log(email)
         const info = await transporter.sendMail({
-            from: '"yash chopra " <yash@gmail.com>', // sender address
+            from: 'abdiel11@ethereal.email', // sender address
             to: email, 
             subject: "verification from Quint Technology Assignments", 
             text: "this is verification email from Quint Technology Assignments,Thankyou for registering", 
